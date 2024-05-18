@@ -1,3 +1,9 @@
-__all__ = ("Base",)
+__all__ = (
+    "Base",
+    "Message",
+    "Profile",
+)
 
 from .base import Base
+from .message import Message
+from .profile import Profile
