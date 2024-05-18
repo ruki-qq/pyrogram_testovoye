@@ -14,7 +14,7 @@ class Status(Enum):
     FINISHED: Final[str] = "finished"
 
 
-class User(Base):
+class Profile(Base):
     created_at: Mapped[datetime] = mapped_column(
         default=datetime.now,
         server_default=func.now(),
