@@ -2,6 +2,8 @@
 Бот-воронка
 
 ## Setup
+Create environment vars from .env.example in your shell environment.(Postgres vars can also be in .env file.)
+
 Go to **/bot** folder, create venv, run poetry install, run alembic upgrad, load messages and run bot:
 ```bash
   cd bot
