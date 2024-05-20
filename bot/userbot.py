@@ -1,9 +1,10 @@
 import logging
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pyrogram import Client
+from pyrogram import Client, errors
+from pyrogram.enums import UserStatus
 
-logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
+logger = logging.getLogger("userbot")
 
 
 class UserBotConfig(BaseSettings):
@@ -14,8 +15,8 @@ class UserBotConfig(BaseSettings):
 
 
 class UserBot(Client):
-    def __init__(self):
-        self.config = UserBotConfig()
+    def __init__(self, config: UserBotConfig):
+        self.config = config
 
         super().__init__(
             "userbot",
@@ -23,14 +24,12 @@ class UserBot(Client):
             api_hash=self.config.hash,
         )
 
-    async def start(self):
-        await super().start()
-
-        me = await self.get_me()
-        logging.info(f"Started userbot on user: {me.username}")
-
-    async def stop(self, *args):
-        me = await self.get_me()
-        await super().stop()
-
-        logging.info(f"Userbot on user {me.username} stopped.")
+    async def send_message(self, chat_id: int, text: str, *args):
+        user = await self.get_users(chat_id)
+        if user.is_deleted:
+            logger.warning(f"User with id: {chat_id} is deleted.")
+            raise errors.UserDeactivated
+        if user.status == UserStatus.LONG_AGO:
+            logger.warning(f"User with id: {chat_id} blocked you.")
+            raise errors.UserIsBlocked
+        await super().send_message(chat_id, text)
