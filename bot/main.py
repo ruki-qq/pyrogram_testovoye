@@ -37,7 +37,7 @@ async def main():
             session: AsyncSession = db_helper.get_scoped_session()
             await check_profiles_and_send_msg(app, session)
             await session.close()
-            await asyncio.sleep(10)
+            await asyncio.sleep(60)
 
 
 if __name__ == "__main__":
