@@ -1,16 +1,23 @@
-from sqlalchemy import String
+from datetime import datetime
+
+from sqlalchemy import func, Text, String
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy_utils import URLType
 
 from .base import Base
+from database.enums import MsgNum, Status
 
 
 class Message(Base):
-    text: Mapped[str] = mapped_column(String(4096))
-    media_url: Mapped[URLType | None] = mapped_column(URLType)
+    title: Mapped[str] = mapped_column(String(120))
+    text: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(
+        default=datetime.now,
+        server_default=func.now(),
+    )
+    num: Mapped[MsgNum] = mapped_column()
 
     def __str__(self):
-        return f"{self.__class__.__name__}, id={self.id}, text={self.text[:30]}"
+        return f"'{self.__class__.__name__}; id={self.id}; title={self.title}'"
 
     def __repr__(self):
         return str(self)
