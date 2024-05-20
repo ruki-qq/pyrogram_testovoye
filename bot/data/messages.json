@@ -1,0 +1,17 @@
+[
+  {
+    "title": "first_msg",
+    "text": "Текст1",
+    "num": "FIRST"
+  },
+  {
+    "title": "second_msg",
+    "text": "Текст2",
+    "num": "SECOND"
+  },
+  {
+    "title": "third_msg",
+    "text": "Текст3",
+    "num": "THIRD"
+  }
+]
